@@ -1,6 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
+import firebase from './firebase'
+
+var newState = [];
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -36,6 +39,27 @@ const VideoChat = () => {
   const handleLogout = useCallback(event => {
     setToken(null);
   }, []);
+
+//firebase code read
+  const itemsRef = firebase.database().ref('roomIDs');
+  itemsRef.on('value', (snapshot) => {
+    let items = snapshot.val();
+    console.log(items)
+    for (let item in items) {
+      newState.push({
+      roomid: item,
+      users: items[item].users,
+      });
+    }
+    console.log(newState);
+  });
+
+  const write = firebase.database()
+      .ref("roomIDs/0002")
+      .set({
+        users: 'hello world 2!'
+      });
+    console.log("DATA SAVED");
 
   let render;
   if (token) {

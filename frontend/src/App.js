@@ -10,6 +10,7 @@ import Profile from "./views/Profile";
 import { useAuth0 } from "./react-auth0-spa";
 import history from "./utils/history";
 import VideoChat from './VideoChat';
+import firebase from './firebase';
 
 // styles
 import "./App.css";
