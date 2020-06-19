@@ -19,22 +19,29 @@ import "./App.css";
 const App = () => {
   const { loading, isAuthenticated } = useAuth0();
   const [modalIsOpen, setModalOpen] = useState(true)
+  const [interestFormFilledOut, setInterestFormFilledOut] = useState(false) // need confirmation from firebase that the user has already answered questions
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div style={{justifyContent: 'center', display: 'flex', alignItems: 'center', height: '90vh'}}>
+        <Loading />
+      </div>
+    )
   }
 
   return (
     <Router history={history}>
         {isAuthenticated ? <NavBar/> : null}
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalOpen(false)}
-          contentLabel="Example Modal"
-          ariaHideApp={false}
-        >
-          <InterestForm closeModal={() => setModalOpen(false)}/>
-        </Modal>
+        { isAuthenticated && !interestFormFilledOut ? 
+          (<Modal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setModalOpen(false)}
+            contentLabel="Example Modal"
+            ariaHideApp={false}
+          >
+            <InterestForm closeModal={() => setModalOpen(false)}/>
+          </Modal>) : null
+        }
         <Switch>
           <Route path="/" exact component={Home}/>
           <PrivateRoute path="/chat" exact component={VideoChat} />
