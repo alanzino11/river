@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import logo from '../logos/2.png';
+
 import {
   Collapse,
   Container,
@@ -33,6 +35,7 @@ const NavBar = () => {
   return (
     <div className="nav-container">
       <Navbar color="light" light expand="md">
+        <img src={logo} height={100}/>
         <Container>
           <NavbarBrand className="logo" />
           <NavbarToggler onClick={toggle} />
@@ -41,16 +44,16 @@ const NavBar = () => {
               <NavItem>
                 <NavLink
                   tag={RouterNavLink}
-                  to="/"
+                  to="/chat"
                   exact
                   activeClassName="router-link-exact-active"
                 >
-                  Home
+                  Chat
                 </NavLink>
               </NavItem>
             </Nav>
             <Nav className="d-none d-md-block" navbar>
-              {!isAuthenticated && (
+              {/* {!isAuthenticated && (
                 <NavItem>
                   <Button
                     id="qsLoginBtn"
@@ -61,7 +64,7 @@ const NavBar = () => {
                     Log in
                   </Button>
                 </NavItem>
-              )}
+              )} */}
               {isAuthenticated && (
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret id="profileDropDown">
