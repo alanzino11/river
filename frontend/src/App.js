@@ -15,7 +15,7 @@ import VideoChat from './VideoChat';
 import "./App.css";
 
 const App = () => {
-  const { loading } = useAuth0();
+  const { loading, isAuthenticated } = useAuth0();
 
   if (loading) {
     return <Loading />;
@@ -23,9 +23,10 @@ const App = () => {
 
   return (
     <Router history={history}>
-        <NavBar />
+        {isAuthenticated ? <NavBar/> : null}
         <Switch>
-          <PrivateRoute path="/" exact component={VideoChat} />
+          <Route path="/" exact component={Home}/>
+          <PrivateRoute path="/chat" exact component={VideoChat} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>
     </Router>
