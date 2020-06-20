@@ -66,7 +66,6 @@ export const Auth0Provider = ({
           topics: "music, technology, long walks on the beach",
         },
         set: false
-
       });
   }
 

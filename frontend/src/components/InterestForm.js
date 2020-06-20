@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { Button } from "reactstrap";
+import firebase from 'firebase';
+import { useAuth0 } from "../react-auth0-spa";
 
 import './components.css'
 import {interestOptions, departments, yearsWorkedOptions} from '../formData'
 import river from '../logos/river.png';
 
 const InterestForm = ({ closeModal }) => {
+    const { user } = useAuth0();
     const animatedComponents = makeAnimated();
     const [interests, setInterests] = useState([])
     const [department, setDepartment] = useState({value: null, label: null})
@@ -15,16 +18,38 @@ const InterestForm = ({ closeModal }) => {
 
     function submitForm() {
         let formData = {
-            interests: [],
+            interests: "",
             department: department.value,
             yearsWorked: yearsWorked.value
         };
-        for (const interest of interests)
-            formData.interests.push(interest.value)
 
-        console.log(formData)
-        // push formData to Firebase 
+        for (let i = 0; i < interests.length; i++) {
+            if (i === interests.length - 1) {
+                formData.interests += interests[i].label
+            } else {
+                formData.interests += interests[i].label + ', '
+            }
+        }
+
+        const handleFormCompletion = () => {
+            firebase.database()
+                .ref("users/" + user.nickname)
+                .set({
+                    first: user.given_name,
+                    last: user.family_name,
+                    email: user.email,
+                    status: formData.yearsWorked,
+                    type: department,
+                    interests: {
+                        status: "any",
+                        type: "any",
+                        topics: formData.interests,
+                    },
+                    set: true
+            });
+        }
         
+        handleFormCompletion();
         closeModal();
     }
 
