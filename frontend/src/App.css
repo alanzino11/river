@@ -78,6 +78,9 @@ button:hover {
     align-items: center;
     flex-direction: column;
   }
+  /*
+  allows for overlay of background img
+  */
   .home-pg::before{
     content: '';
     background-image: url('./logos/RV-HQ-01.jpg');
