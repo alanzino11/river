@@ -17,6 +17,7 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
+  const [verifiedLoaded, setVerifiedLoaded] = useState(false);
 
   useEffect(() => {
     const initAuth0 = async () => {
@@ -38,7 +39,11 @@ export const Auth0Provider = ({
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
         console.log("in auth", user);
-        handleUserLogin(user);
+        const verified = await verifyUserRegistered(user);
+        console.log("verified", verified);
+        if (verifiedLoaded) {
+          handleUserLogin(user);
+        }
         setUser(user);
       }
 
@@ -49,10 +54,7 @@ export const Auth0Provider = ({
   }, []);
 
   const handleUserLogin = (obj) => {
-    if (obj.set == true) {
-      return;
-    }
-    firebase.database()
+      firebase.database()
       .ref("users/" + obj.nickname)
       .set({
         first: obj.given_name,
@@ -67,6 +69,19 @@ export const Auth0Provider = ({
         },
         set: false
       });
+  }
+
+  const verifyUserRegistered = (obj) => {
+    firebase.database()
+    .ref("users/"+obj.nickname)
+    .on('value', (snapshot) => {
+      let userObj = snapshot.val()
+      console.log("Print this", userObj.set);
+      if (userObj.set === true) {
+        setVerifiedLoaded(true);
+        return true;
+      }
+    });
   }
 
   const loginWithPopup = async (params = {}) => {

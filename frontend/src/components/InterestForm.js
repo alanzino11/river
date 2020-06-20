@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { Button } from "reactstrap";
@@ -52,6 +52,17 @@ const InterestForm = ({ closeModal }) => {
         handleFormCompletion();
         closeModal();
     }
+
+    useEffect(() => {
+        const userRef = firebase.database().ref("users/" + user.nickname);
+        userRef.on('value', (snapshot) => {
+          let u = snapshot.val();
+          console.log('IN INTEREST FORM, user is', u)
+          if (u.set)
+            closeModal();
+        });
+  
+    }, [])
 
     return (
         <div className="interest-form">
