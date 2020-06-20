@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+import firebase from './firebase';
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -36,6 +37,8 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
+        console.log("in auth", user);
+        handleUserLogin(user);
         setUser(user);
       }
 
@@ -44,6 +47,24 @@ export const Auth0Provider = ({
     initAuth0();
     // eslint-disable-next-line
   }, []);
+
+  const handleUserLogin = (obj) => {
+    firebase.database()
+      .ref("users/" + obj.nickname)
+      .set({
+        first: obj.given_name,
+        last: obj.family_name,
+        email: obj.email,
+        status: "intern",
+        type: "software engineering",
+        interests: {
+          status: "any",
+          type: "any",
+          topics: "music, technology, long walks on the beach",
+        set: false
+        }
+      });
+  }
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);

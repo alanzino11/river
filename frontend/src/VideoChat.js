@@ -1,8 +1,14 @@
 import React, { useState, useCallback } from 'react';
+import { useAuth0 } from "./react-auth0-spa";
 import Lobby from './Lobby';
 import Room from './Room';
+import firebase from './firebase';
+
+const newState = []
 
 const VideoChat = () => {
+  const { user } = useAuth0();
+  console.log("in video chat", user);
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
@@ -36,6 +42,20 @@ const VideoChat = () => {
   const handleLogout = useCallback(event => {
     setToken(null);
   }, []);
+
+  //firebase code read
+  const itemsRef = firebase.database().ref('roomIDs');
+  itemsRef.on('value', (snapshot) => {
+    let items = snapshot.val();
+    console.log(items)
+    for (let item in items) {
+      newState.push({
+      roomid: item,
+      users: items[item].users,
+      });
+    }
+    console.log(newState);
+  });
 
   let render;
   if (token) {
