@@ -16,10 +16,24 @@ import InterestForm from './components/InterestForm'
 // styles
 import "./App.css";
 
+const newState = []
+
 const App = () => {
-  const { loading, isAuthenticated } = useAuth0();
+  const { user, loading, isAuthenticated } = useAuth0();
   const [modalIsOpen, setModalOpen] = useState(true)
   const [interestFormFilledOut, setInterestFormFilledOut] = useState(false) // need confirmation from firebase that the user has already answered questions
+
+useEffect(() => {
+    verifyUserRegistered();
+})
+
+const verifyUserRegistered = () => {
+  if (user) {
+    if (user.set == true) {
+      setInterestFormFilledOut(true);
+    }
+  }
+}
 
   if (loading) {
     return (
