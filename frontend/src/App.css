@@ -100,6 +100,9 @@ button:hover {
    position: relative;
    
  }
+ /*
+ Animation for background change
+ */ 
  @keyframes slide {
    0%{
      background-image: url('./logos/RV-HQ-01.jpg');
