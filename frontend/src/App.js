@@ -29,6 +29,8 @@ const App = () => {
     )
   }
 
+  console.log(isAuthenticated)
+
   return (
     <Router history={history}>
         {isAuthenticated ? <NavBar/> : null}
@@ -43,7 +45,7 @@ const App = () => {
           </Modal>) : null
         }
         <Switch>
-          <Route path="/" exact component={Home}/>
+          {!isAuthenticated ? <Route path="/" exact component={Home}/> : null}
           <PrivateRoute path="/chat" exact component={VideoChat} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>

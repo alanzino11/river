@@ -61,8 +61,8 @@ export const Auth0Provider = ({
           status: "any",
           type: "any",
           topics: "music, technology, long walks on the beach",
+        },
         set: false
-        }
       });
   }
 
