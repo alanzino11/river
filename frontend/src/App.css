@@ -4,14 +4,11 @@
   box-sizing: border-box;
 }
 
-html {
-  height: 100%;
-}
-
-body {
+body,html,#root, .app {
   font-family: Helvetica, Arial, sans-serif;
   color: #333e5a;
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 header {
@@ -27,15 +24,7 @@ h1 {
   padding: 0.4em 0;
 }
 
-#root {
-  min-height: 100vh;
-}
 
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 
 main {
   background: #ffffff;
@@ -81,7 +70,51 @@ button {
 button:hover {
   filter: brightness(150%);
 }
-
+.home-pg{
+    width:100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .home-pg::before{
+    content: '';
+    background-image: url('./logos/RV-HQ-01.jpg');
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    overflow:hidden;
+    position: absolute;
+    top:0px;
+    right: 0px;
+    left: 0px;
+    bottom:0px;
+    opacity: .40;
+    animation: slide 15s infinite;
+  }
+ .content{
+   position: relative;
+   
+ }
+ @keyframes slide {
+   0%{
+     background-image: url('./logos/RV-HQ-01.jpg');
+   }
+   33%{
+     background-image: url('./logos//RV-HQ-02.jpg');
+   }
+   67%{
+     background-image: url('./logos/RV-Life-08.JPG');
+   }
+ }
+ #home-logo{
+  width: 100%;
+  height: auto;
+ }
+ .btn-margin {
+   margin-left: 10rem;
+ }
 .room {
   position: relative;
 }
