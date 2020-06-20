@@ -18,50 +18,56 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
-app.get('/api/greeting', (req, res) => {
-  const name = req.query.name || 'World';
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
+app.get('/chat', (req, res) => {
+  res.send('hi')
 });
 
-app.get('/chat/token', (req, res) => {
-  const identity = req.query.identity;
-  const token = chatToken(identity, config);
-  sendTokenResponse(token, res);
-});
+// app.get('/api/greeting', (req, res) => {
+//   const name = req.query.name || 'World';
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
+// });
 
-app.post('/chat/token', (req, res) => {
-  const identity = req.body.identity;
-  const token = chatToken(identity, config);
-  sendTokenResponse(token, res);
-});
+// app.get('/chat/token', (req, res) => {
+//   const identity = req.query.identity;
+//   const token = chatToken(identity, config);
+//   sendTokenResponse(token, res);
+// });
 
-app.get('/video/token', (req, res) => {
-  const identity = req.query.identity;
-  const room = req.query.room;
-  const token = videoToken(identity, room, config);
-  sendTokenResponse(token, res);
-});
+// app.post('/chat/token', (req, res) => {
+//   const identity = req.body.identity;
+//   const token = chatToken(identity, config);
+//   sendTokenResponse(token, res);
+// });
 
-app.post('/video/token', (req, res) => {
-  const identity = req.body.identity;
-  const room = req.body.room;
-  const token = videoToken(identity, room, config);
-  sendTokenResponse(token, res);
-});
+// app.get('/video/token', (req, res) => {
+//   const identity = req.query.identity;
+//   const room = req.query.room;
+//   const token = videoToken(identity, room, config);
+//   console.log('in 1st get')
+//   sendTokenResponse(token, res);
+// });
 
-app.get('/voice/token', (req, res) => {
-  const identity = req.body.identity;
-  const token = voiceToken(identity, config);
-  sendTokenResponse(token, res);
-});
+// app.post('/video/token', (req, res) => {
+//   const identity = req.body.identity;
+//   const room = req.body.room;
+//   const token = videoToken(identity, room, config);
+//   sendTokenResponse(token, res);
+// });
 
-app.post('/voice/token', (req, res) => {
-  const identity = req.body.identity;
-  const token = voiceToken(identity, config);
-  sendTokenResponse(token, res);
-});
+// app.get('/voice/token', (req, res) => {
+//   const identity = req.body.identity;
+//   const token = voiceToken(identity, config);
+//   console.log('in 2nd get')
+//   sendTokenResponse(token, res);
+// });
 
-app.listen(3001, () =>
-  console.log('Express server is running on localhost:3001')
-);
+// app.post('/voice/token', (req, res) => {
+//   const identity = req.body.identity;
+//   const token = voiceToken(identity, config);
+//   sendTokenResponse(token, res);
+// });
+
+// app.listen(3001, () =>
+//   console.log('Express server is running on localhost:3001')
+// );
