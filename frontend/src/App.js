@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { Container, Button } from "reactstrap";
 import Modal from 'react-modal'
+import firebase from './firebase';
 import PrivateRoute from "./components/PrivateRoute";
 import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
@@ -15,23 +16,31 @@ import InterestForm from './components/InterestForm'
 // styles
 import "./App.css";
 
-const newState = []
-
 const App = () => {
   const { user, loading, isAuthenticated } = useAuth0();
   const [modalIsOpen, setModalOpen] = useState(true)
   const [interestFormFilledOut, setInterestFormFilledOut] = useState(false) // need confirmation from firebase that the user has already answered questions
+  const [userVerified, setUserVerified] = useState(false)
 
 useEffect(() => {
-    verifyUserRegistered();
-}, [])
-
-const verifyUserRegistered = () => {
   if (user) {
-    if (user.set == true) {
-      setInterestFormFilledOut(true);
-    }
+    verifyUserRegistered(user);
   }
+  if (interestFormFilledOut) {
+    setUserVerified(true);
+  }
+}, [user, interestFormFilledOut])
+
+const verifyUserRegistered = (obj) => {
+  firebase.database().ref("users/"+obj.nickname)
+  .on('value', (snapshot) => {
+    let userObj = snapshot.val();
+    console.log('IN INTEREST FORM, user is', userObj)
+    if (userObj.set) {
+      setInterestFormFilledOut(true);
+      console.log("Interest Form", interestFormFilledOut)
+    }
+  });
 }
 
   if (loading) {
@@ -47,7 +56,7 @@ const verifyUserRegistered = () => {
   return (
     <Router history={history}>
         {isAuthenticated ? <NavBar/> : null}
-        { isAuthenticated && !interestFormFilledOut ? 
+        { isAuthenticated && userVerified && !interestFormFilledOut? 
           (<Modal
             isOpen={modalIsOpen}
             onRequestClose={() => setModalOpen(false)}

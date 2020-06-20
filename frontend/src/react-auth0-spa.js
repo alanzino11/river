@@ -38,10 +38,8 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
-        console.log("in auth", user);
-        const verified = await verifyUserRegistered(user);
-        console.log("verified", verified);
-        if (verifiedLoaded) {
+        const verified = verifyUserRegistered(user);
+        if (verifiedLoaded && !verified) {
           handleUserLogin(user);
         }
         setUser(user);

@@ -53,16 +53,17 @@ const InterestForm = ({ closeModal }) => {
         closeModal();
     }
 
-    useEffect(() => {
-        const userRef = firebase.database().ref("users/" + user.nickname);
-        userRef.on('value', (snapshot) => {
-          let u = snapshot.val();
-          console.log('IN INTEREST FORM, user is', u)
-          if (u.set)
-            closeModal();
-        });
+    // Moved state checking to App.js
+    // useEffect(() => {
+    //     const userRef = firebase.database().ref("users/" + user.nickname);
+    //     userRef.on('value', (snapshot) => {
+    //       let u = snapshot.val();
+    //       console.log('IN INTEREST FORM, user is', u)
+    //       if (u.set)
+    //         closeModal();
+    //     });
   
-    }, [])
+    // }, [])
 
     return (
         <div className="interest-form">
