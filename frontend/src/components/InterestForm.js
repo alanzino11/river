@@ -39,7 +39,7 @@ const InterestForm = ({ closeModal }) => {
                     last: user.family_name,
                     email: user.email,
                     status: formData.yearsWorked,
-                    type: department,
+                    type: formData.department,
                     interests: {
                         status: "any",
                         type: "any",
@@ -52,7 +52,6 @@ const InterestForm = ({ closeModal }) => {
         handleFormCompletion();
         closeModal();
     }
-
     useEffect(() => {
         const userRef = firebase.database().ref("users/" + user.nickname);
         userRef.on('value', (snapshot) => {
@@ -62,8 +61,7 @@ const InterestForm = ({ closeModal }) => {
             closeModal();
         });
   
-    }, [])
-
+    }, [])    
     return (
         <div className="interest-form">
             <div style={{maxWidth: '700px'}}>
