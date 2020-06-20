@@ -25,7 +25,7 @@ const App = () => {
 
 useEffect(() => {
     verifyUserRegistered();
-})
+}, [])
 
 const verifyUserRegistered = () => {
   if (user) {

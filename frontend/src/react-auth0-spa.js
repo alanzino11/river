@@ -49,6 +49,9 @@ export const Auth0Provider = ({
   }, []);
 
   const handleUserLogin = (obj) => {
+    if (obj.set == true) {
+      return;
+    }
     firebase.database()
       .ref("users/" + obj.nickname)
       .set({
