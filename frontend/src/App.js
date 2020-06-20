@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { Container, Button } from "reactstrap";
 import Modal from 'react-modal'
-
 import PrivateRoute from "./components/PrivateRoute";
 import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
