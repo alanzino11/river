@@ -1,0 +1,14 @@
+{
+    "name": "react-express-starter",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "concurrently \"nodemon backend/index.js\" \"npm run frontend\"",
+        "frontend": "cd frontend && npm start",
+        "backend": "cd backend && npm run start"
+    },
+    "dependencies": { 
+        "concurrently": "^5.2.0",
+        "nodemon": "^2.0.4"
+    }
+}

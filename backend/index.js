@@ -19,7 +19,7 @@ const sendTokenResponse = (token, res) => {
 };
 
 app.get('/chat', (req, res) => {
-  res.send('hi')
+  res.send('hello')
 });
 
 app.get('/api/greeting', (req, res) => {
