@@ -2,8 +2,6 @@ import React, {useState, useEffect} from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { Container, Button } from "reactstrap";
 import Modal from 'react-modal'
-import axios from 'axios';
-
 import PrivateRoute from "./components/PrivateRoute";
 import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
@@ -17,18 +15,24 @@ import InterestForm from './components/InterestForm'
 // styles
 import "./App.css";
 
+const newState = []
+
 const App = () => {
-  const { loading, isAuthenticated } = useAuth0();
+  const { user, loading, isAuthenticated } = useAuth0();
   const [modalIsOpen, setModalOpen] = useState(true)
   const [interestFormFilledOut, setInterestFormFilledOut] = useState(false) // need confirmation from firebase that the user has already answered questions
 
+useEffect(() => {
+    verifyUserRegistered();
+}, [])
 
-  useEffect(() => {
-    axios.get('/chat')
-    .then(res => {
-      console.log(res.data)
-    })
-  }, [])
+const verifyUserRegistered = () => {
+  if (user) {
+    if (user.set == true) {
+      setInterestFormFilledOut(true);
+    }
+  }
+}
 
   if (loading) {
     return (
@@ -37,6 +41,8 @@ const App = () => {
       </div>
     )
   }
+
+  console.log(isAuthenticated)
 
   return (
     <Router history={history}>
@@ -52,7 +58,7 @@ const App = () => {
           </Modal>) : null
         }
         <Switch>
-          { !isAuthenticated ? <Route path="/" exact component={Home}/> : null }
+          {!isAuthenticated ? <Route path="/" exact component={Home}/> : null}
           <PrivateRoute path="/chat" exact component={VideoChat} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>

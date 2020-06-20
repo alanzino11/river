@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+import firebase from './firebase';
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -16,6 +17,7 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
+  const [verifiedLoaded, setVerifiedLoaded] = useState(false);
 
   useEffect(() => {
     const initAuth0 = async () => {
@@ -36,6 +38,12 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
+        console.log("in auth", user);
+        const verified = await verifyUserRegistered(user);
+        console.log("verified", verified);
+        if (verifiedLoaded) {
+          handleUserLogin(user);
+        }
         setUser(user);
       }
 
@@ -44,6 +52,37 @@ export const Auth0Provider = ({
     initAuth0();
     // eslint-disable-next-line
   }, []);
+
+  const handleUserLogin = (obj) => {
+      firebase.database()
+      .ref("users/" + obj.nickname)
+      .set({
+        first: obj.given_name,
+        last: obj.family_name,
+        email: obj.email,
+        status: "intern",
+        type: "software engineering",
+        interests: {
+          status: "any",
+          type: "any",
+          topics: "music, technology, long walks on the beach",
+        },
+        set: false
+      });
+  }
+
+  const verifyUserRegistered = (obj) => {
+    firebase.database()
+    .ref("users/"+obj.nickname)
+    .on('value', (snapshot) => {
+      let userObj = snapshot.val()
+      console.log("Print this", userObj.set);
+      if (userObj.set === true) {
+        setVerifiedLoaded(true);
+        return true;
+      }
+    });
+  }
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
