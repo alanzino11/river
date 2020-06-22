@@ -27,7 +27,7 @@ services:
     expose:
       - 3000
     volumes:
-      - ./frontend:/home/app
+      - ./frontend
     tty: true
     networks:
       - local    
