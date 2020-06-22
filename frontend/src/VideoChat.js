@@ -11,13 +11,13 @@ const VideoChat = () => {
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
   //set our variables, and their respective setState functions
-  const handleUsernameChange = useCallback(event => {
-    setUsername(event.target.value);
-  }, []);
+  const handleUsernameChange = (value) => {
+    setUsername(value);
+  }
 
-  const handleRoomNameChange = useCallback(event => {
-    setRoomName(event.target.value);
-  }, []);
+  const handleRoomNameChange = (value) => {
+    setRoomName(value);
+  }
   //functions to set the state of vars
   const handleSubmit = useCallback(
     async event => {
@@ -41,19 +41,6 @@ const VideoChat = () => {
     setToken(null);
   }, []);
 
-  //firebase code read
-  // const itemsRef = firebase.database().ref('roomIDs');
-  // itemsRef.on('value', (snapshot) => {
-  //   let items = snapshot.val();
-  //   console.log(items)
-  //   for (let item in items) {
-  //     newState.push({
-  //     roomid: item,
-  //     users: items[item].users,
-  //     });
-  //   }
-  //   console.log(newState);
-  // });
 
   let render;
   if (token) {
