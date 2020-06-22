@@ -29,8 +29,8 @@ services:
     volumes:
       - ./frontend
     tty: true
-    networks:
-      - local    
+    # networks:
+    #   - local    
   # mysql:
   #   image: mysql:5
   #   environment:

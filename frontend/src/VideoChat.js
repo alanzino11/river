@@ -1,24 +1,21 @@
 import React, { useState, useCallback } from 'react';
-import { useAuth0 } from "./react-auth0-spa";
 import Lobby from './Lobby';
 import Room from './Room';
-import firebase from './firebase';
-
 
 const VideoChat = () => {
-  console.log("Video Chat");
-  const { user } = useAuth0();
+
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
   //set our variables, and their respective setState functions
   const handleUsernameChange = useCallback(event => {
-    setUsername(event.target.value);
+    setUsername(event);
   }, []);
 
   const handleRoomNameChange = useCallback(event => {
-    setRoomName(event.target.value);
+    setRoomName(event);
   }, []);
+
   //functions to set the state of vars
   const handleSubmit = useCallback(
     async event => {
@@ -41,20 +38,6 @@ const VideoChat = () => {
   const handleLogout = useCallback(event => {
     setToken(null);
   }, []);
-
-  //firebase code read
-  // const itemsRef = firebase.database().ref('roomIDs');
-  // itemsRef.on('value', (snapshot) => {
-  //   let items = snapshot.val();
-  //   console.log(items)
-  //   for (let item in items) {
-  //     newState.push({
-  //     roomid: item,
-  //     users: items[item].users,
-  //     });
-  //   }
-  //   console.log(newState);
-  // });
 
   let render;
   if (token) {

@@ -57,13 +57,13 @@ const Room = ({ roomName, token, handleLogout }) => {
           <Participant
             key={room.localParticipant.sid}
             participant={room.localParticipant}
+            style={{float: "left"}}
           />
         ) : (
           ''
-        )}
+        )}  
+<div className="remote-participants" style={{float: "left"}}>{remoteParticipants}</div>
       </div>
-      <h3>Remote Participants</h3>
-      <div className="remote-participants">{remoteParticipants}</div>
     </div>
   );
 };
