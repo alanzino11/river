@@ -78,7 +78,7 @@ const verifyUserRegistered = (obj) => {
   .on('value', (snapshot) => {
     let userObj = snapshot.val()
     if (userObj.set) {
-      console.log('here!');
+      console.log(obj);
       setUserVerified(true);
     }
     setUserVerifiedLoaded(true);
