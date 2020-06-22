@@ -20,7 +20,7 @@ const App = () => {
   const { user, loading, isAuthenticated } = useAuth0();
   const [modalIsOpen, setModalOpen] = useState(true);
   const [userVerified, setUserVerified] = useState(false);
-  // const [userVerifiedLoaded, setUserVerifiedLoaded] = useState(false);
+  const [userVerifiedLoaded, setUserVerifiedLoaded] = useState(false);
   const [userExists, setUserExists] = useState(false);
   const [userExistsLoaded, setUserExistsLoaded] = useState(false);
 
@@ -76,7 +76,7 @@ const verifyUserRegistered = (obj) => {
     if (userObj.set) {
       setUserVerified(true);
     }
-    // setUserVerifiedLoaded(true);
+    setUserVerifiedLoaded(true);
   });
 }
 
@@ -91,7 +91,7 @@ const verifyUserRegistered = (obj) => {
   return (
     <Router history={history}>
         {isAuthenticated ? <NavBar/> : null}
-        { isAuthenticated && userVerified ? 
+        { isAuthenticated && userVerified && userVerifiedLoaded ? 
           (<Modal
             isOpen={modalIsOpen}
             onRequestClose={() => setModalOpen(false)}
