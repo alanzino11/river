@@ -1,34 +1,25 @@
 import React, { useState, useCallback } from 'react';
-import { useAuth0 } from "./react-auth0-spa";
 import Lobby from './Lobby';
 import Room from './Room';
-import firebase from './firebase';
-import { Router, Redirect, Route, Switch } from "react-router-dom";
 
 const VideoChat = () => {
-  console.log("Video Chat");
-  const { user } = useAuth0();
+
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
   //set our variables, and their respective setState functions
-  const handleUsernameChange = (value) => {
-    setUsername(value);
-  }
+  const handleUsernameChange = useCallback(event => {
+    setUsername(event);
+  }, []);
 
-  const handleRoomNameChange = (value) => {
-    setRoomName(value);
-  }
+  const handleRoomNameChange = useCallback(event => {
+    setRoomName(event);
+  }, []);
+
   //functions to set the state of vars
-  const handleSubmit = (room,name) => {
-    handleUsernameChange(name);
-    handleRoomNameChange(room);
-    getTwilio();
-  }
-  
-  const getTwilio = useCallback(
+  const handleSubmit = useCallback(
     async event => {
-      //event.preventDefault(); //handle user not entering data
+      event.preventDefault(); //handle user not entering data
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
@@ -46,9 +37,7 @@ const VideoChat = () => {
 
   const handleLogout = useCallback(event => {
     setToken(null);
-    return(<Redirect to="/" />)
   }, []);
-
 
   let render;
   if (token) {
