@@ -9,7 +9,7 @@ import InterestForm from '../components/InterestForm';
 
 const Profile = () => {
   const { loading, user } = useAuth0();
-  const [interests, setInterests] = useState([])
+  const [interests, setInterests] = useState()
   const [interestFormOpen, setInterestFormOpen] = useState(false)
 
   useEffect(() => {
@@ -17,17 +17,12 @@ const Profile = () => {
       firebase.database().ref("users/"+ user.nickname)
       .on('value', (snapshot) => {
         let userObj = snapshot.val();
-        splitArray(userObj.interests.topics)
+        setInterests(userObj.interests.topics)
       });
     }
 
     verifyUserRegistered()
   }, [])
-
-  const splitArray = (str) => {
-    let fields = str.split(',');
-    setInterests(fields)
-  }
 
   if (loading || !user) {
     return <Loading />;

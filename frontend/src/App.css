@@ -97,7 +97,7 @@ button:hover {
     transition: 5s;
     animation-name: slide;
     animation-direction: alternate-reverse;
-    animation-duration: 30s;
+    animation-duration: 10s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
     animation-play-state: running;
