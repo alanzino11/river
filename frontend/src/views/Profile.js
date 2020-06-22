@@ -41,6 +41,7 @@ const Profile = () => {
       contentLabel="Example Modal"
       ariaHideApp={false}
     >
+      <Button id="close" onClick={() => setInterestFormOpen(false)}>X</Button>
       <InterestForm closeModal={() => setInterestFormOpen(false)}/>
     </Modal>
     <Container className="mb-5">
