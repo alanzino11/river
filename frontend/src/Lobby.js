@@ -48,7 +48,7 @@ const Lobby = ({
         <input
           type="text"
           id="field"
-          value={username}
+          value={user.nickname}
           onChange={handleUsernameChange}
           required
         />
