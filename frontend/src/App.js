@@ -18,26 +18,65 @@ import "./App.css";
 
 const App = () => {
   const { user, loading, isAuthenticated } = useAuth0();
-  const [modalIsOpen, setModalOpen] = useState(true)
-  const [interestFormFilledOut, setInterestFormFilledOut] = useState(false) // need confirmation from firebase that the user has already answered questions
-  const [userVerified, setUserVerified] = useState(false)
+  const [modalIsOpen, setModalOpen] = useState(true);
+  const [userVerified, setUserVerified] = useState(false);
+  // const [userVerifiedLoaded, setUserVerifiedLoaded] = useState(false);
+  const [userExists, setUserExists] = useState(false);
+  const [userExistsLoaded, setUserExistsLoaded] = useState(false);
 
 useEffect(() => {
   if (user) {
+    verifyUserExists(user);
+  }
+}, [user])
+
+useEffect(() => {
+  if (userExists) {
     verifyUserRegistered(user);
+  } else if (user) {
+    handleUserLogin(user);
   }
-  if (interestFormFilledOut) {
-    setUserVerified(true);
-  }
-}, [user, interestFormFilledOut])
+}, [userExistsLoaded])
+
+const handleUserLogin = (obj) => {
+  firebase.database()
+  .ref("users/" + obj.nickname)
+  .set({
+    first: obj.given_name,
+    last: obj.family_name,
+    email: obj.email,
+    status: "",
+    type: "",
+    interests: {
+      status: "",
+      type: "",
+      topics: "",
+    },
+    set: false
+  });
+}
+
+const verifyUserExists = (obj) => {
+  firebase.database()
+  .ref("users/"+obj.nickname)
+  .on('value', (snapshot) => {
+    let userObj = snapshot.val()
+    if (userObj) {
+      setUserExists(true);
+    }
+    setUserExistsLoaded(true);
+  });
+}
 
 const verifyUserRegistered = (obj) => {
-  firebase.database().ref("users/"+obj.nickname)
+  firebase.database()
+  .ref("users/"+obj.nickname)
   .on('value', (snapshot) => {
-    let userObj = snapshot.val();
+    let userObj = snapshot.val()
     if (userObj.set) {
-      setInterestFormFilledOut(true);
+      setUserVerified(true);
     }
+    // setUserVerifiedLoaded(true);
   });
 }
 
@@ -52,7 +91,7 @@ const verifyUserRegistered = (obj) => {
   return (
     <Router history={history}>
         {isAuthenticated ? <NavBar/> : null}
-        { isAuthenticated && userVerified && !interestFormFilledOut? 
+        { isAuthenticated && userVerified ? 
           (<Modal
             isOpen={modalIsOpen}
             onRequestClose={() => setModalOpen(false)}
