@@ -1,23 +1,23 @@
 version: "3"
 services:
-  backend:
-    build: ./backend
-    restart: always
-    ports: 
-      - 3001:3001
-    environment:
-      - PORT=3001
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASS=password
-    volumes:
-      - ./backend:/home/app
-    expose:
-      - 3001
-    depends_on:
-      - mysql
-    networks:
-      - local      
+  # backend:
+  #   build: ./backend
+  #   restart: always
+  #   ports: 
+  #     - 3001:3001
+  #   environment:
+  #     - PORT=3001
+  #     - DB_HOST=mysql
+  #     - DB_USER=root
+  #     - DB_PASS=password
+  #   volumes:
+  #     - ./backend:/home/app
+  #   expose:
+  #     - 3001
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - local      
   frontend:
     build: ./frontend
     ports: 
@@ -31,17 +31,17 @@ services:
     tty: true
     networks:
       - local    
-  mysql:
-    image: mysql:5
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: testDB
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d
-    expose: 
-      - 3306
-    networks:
-      - local
+  # mysql:
+  #   image: mysql:5
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: testDB
+  #   volumes:
+  #     - ./sql:/docker-entrypoint-initdb.d
+  #   expose: 
+  #     - 3306
+  #   networks:
+  #     - local
 
 networks:
   local: {}
