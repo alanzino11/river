@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import firebase from './firebase';
 import { useAuth0 } from "./react-auth0-spa";
+import "./style.css";
 
 /* The Lobby Component's Job is to render the props from its parent, the VideoChat component
 it will have username and room name and handle the form upon submission 
@@ -16,6 +17,7 @@ const Lobby = ({
 }) => {
   const { user } = useAuth0();
   const [interests, setInterests] = useState([])
+  const annaFirebaseArray = ['tech','science','fashion','sports']
 
   useEffect(() => {
     const verifyUserRegistered = () => {
@@ -33,6 +35,10 @@ const Lobby = ({
     let fields = str.split(',');
     setInterests(fields)
   }
+
+  const myTiles = interests.map(thisTile => (
+  <div><button class="column" id='myInterest' key={thisTile} onClick=''><div id='inner'>{thisTile}</div></button></div>
+  ));
 
   return (
     <form onSubmit={handleSubmit}>
@@ -59,6 +65,10 @@ const Lobby = ({
         />
       </div>
       <button type="submit">Submit</button>
+
+      <h3>Room Interests</h3>
+      <div class='wrap'><div className="interest-tiles">{myTiles}</div></div>
+
     </form>
   );
 };
