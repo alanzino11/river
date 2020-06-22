@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
 
+import React, {useState, useEffect} from 'react';
 import firebase from './firebase';
 import { useAuth0 } from "./react-auth0-spa";
-import "./style.css";
-
 /* The Lobby Component's Job is to render the props from its parent, the VideoChat component
 it will have username and room name and handle the form upon submission 
 by using the functions passed in from VideoChat*/
@@ -16,9 +14,7 @@ const Lobby = ({
   handleSubmit
 }) => {
   const { user } = useAuth0();
-  const [interests, setInterests] = useState([])
-  const annaFirebaseArray = ['tech','science','fashion','sports']
-
+  const [interests, setInterests] = useState([]);
   useEffect(() => {
     const verifyUserRegistered = () => {
       firebase.database().ref("users/"+ user.nickname)
@@ -27,7 +23,6 @@ const Lobby = ({
         splitArray(userObj.interests.topics)
       });
     }
-
     verifyUserRegistered()
   }, [])
 
@@ -37,13 +32,31 @@ const Lobby = ({
   }
 
   const myTiles = interests.map(thisTile => (
-  <form onSubmit={handleSubmit(thisTile,user.nickname)}><button type="submit" class="column" id='myInterest' key={thisTile}><div id='inner'>{thisTile}</div></button></form>
-  ));
+    <div>
+      <button class="column" id={thisTile} key={thisTile} onClick={() => {
+        handleRoomNameChange(thisTile);
+        handleUsernameChange(user.nickname);
+      }
+      }>
+        <div id='inner'>{thisTile} </div>
+    </button>
+    </div>
+    ));
+
 
   return (
     <div>
+    <form onSubmit={handleSubmit}>
+      <h2>Enter a room</h2>
+      
       <h3>Room Interests</h3>
-      <div class='wrap'><div className="interest-tiles">{myTiles}</div></div>
+      {myTiles}
+      
+    </form>
+    <div>
+    
+    
+    </div>
     </div>
   );
 };
