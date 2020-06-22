@@ -19,12 +19,6 @@ const Lobby = ({
   const [interests, setInterests] = useState([])
   const annaFirebaseArray = ['tech','science','fashion','sports']
 
-  const handleRoomSubmit = (room) =>{
-    handleRoomNameChange(room);
-    handleUsernameChange(user.nickname);
-    handleSubmit();
-  }
-
   useEffect(() => {
     const verifyUserRegistered = () => {
       firebase.database().ref("users/"+ user.nickname)
@@ -43,7 +37,7 @@ const Lobby = ({
   }
 
   const myTiles = interests.map(thisTile => (
-  <div><button class="column" id='myInterest' key={thisTile} onClick={handleRoomSubmit(thisTile)}><div id='inner'>{thisTile}</div></button></div>
+  <form onSubmit={handleSubmit(thisTile,user.nickname)}><button type="submit" class="column" id='myInterest' key={thisTile}><div id='inner'>{thisTile}</div></button></form>
   ));
 
   return (

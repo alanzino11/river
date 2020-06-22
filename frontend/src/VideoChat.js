@@ -3,7 +3,7 @@ import { useAuth0 } from "./react-auth0-spa";
 import Lobby from './Lobby';
 import Room from './Room';
 import firebase from './firebase';
-
+import { Router, Redirect, Route, Switch } from "react-router-dom";
 
 const VideoChat = () => {
   const { user } = useAuth0();
@@ -19,9 +19,15 @@ const VideoChat = () => {
     setRoomName(value);
   }
   //functions to set the state of vars
-  const handleSubmit = useCallback(
+  const handleSubmit = (room,name) => {
+    handleUsernameChange(name);
+    handleRoomNameChange(room);
+    getTwilio();
+  }
+  
+  const getTwilio = useCallback(
     async event => {
-      event.preventDefault(); //handle user not entering data
+      //event.preventDefault(); //handle user not entering data
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
@@ -39,6 +45,7 @@ const VideoChat = () => {
 
   const handleLogout = useCallback(event => {
     setToken(null);
+    return(<Redirect to="/" />)
   }, []);
 
 
