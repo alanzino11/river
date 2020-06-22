@@ -38,10 +38,6 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
-        const verified = verifyUserRegistered(user);
-        if (verifiedLoaded && !verified) {
-          handleUserLogin(user);
-        }
         setUser(user);
       }
 
@@ -50,37 +46,6 @@ export const Auth0Provider = ({
     initAuth0();
     // eslint-disable-next-line
   }, []);
-
-  const handleUserLogin = (obj) => {
-      firebase.database()
-      .ref("users/" + obj.nickname)
-      .set({
-        first: obj.given_name,
-        last: obj.family_name,
-        email: obj.email,
-        status: "intern",
-        type: "software engineering",
-        interests: {
-          status: "any",
-          type: "any",
-          topics: "music, technology, long walks on the beach",
-        },
-        set: false
-      });
-  }
-
-  const verifyUserRegistered = (obj) => {
-    firebase.database()
-    .ref("users/"+obj.nickname)
-    .on('value', (snapshot) => {
-      let userObj = snapshot.val()
-      console.log("Print this", userObj.set);
-      if (userObj.set === true) {
-        setVerifiedLoaded(true);
-        return true;
-      }
-    });
-  }
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
