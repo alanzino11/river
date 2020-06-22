@@ -94,11 +94,17 @@ button:hover {
     left: 0px;
     bottom:0px;
     opacity: .40;
-    animation: slide 15s infinite;
+    transition: 5s;
+    animation-name: slide;
+    animation-direction: alternate-reverse;
+    animation-duration: 30s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+    animation-timing-function: ease-in-out;
   }
  .content{
    position: relative;
-   
  }
  /*
  Animation for background change
