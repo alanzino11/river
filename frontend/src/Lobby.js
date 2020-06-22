@@ -37,39 +37,14 @@ const Lobby = ({
   }
 
   const myTiles = interests.map(thisTile => (
-  <div><button class="column" id='myInterest' key={thisTile} onClick=''><div id='inner'>{thisTile}</div></button></div>
+  <form onSubmit={handleSubmit(thisTile,user.nickname)}><button type="submit" class="column" id='myInterest' key={thisTile}><div id='inner'>{thisTile}</div></button></form>
   ));
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Enter a room</h2>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="field"
-          value={username}
-          onChange={handleUsernameChange}
-          required
-        />
-      </div>
-
-      <div>
-        <label htmlFor="room">Room name:</label>
-        <input
-          type="text"
-          id="room"
-          value={roomName}
-          onChange={handleRoomNameChange}
-          required
-        />
-      </div>
-      <button type="submit">Submit</button>
-
+    <div>
       <h3>Room Interests</h3>
       <div class='wrap'><div className="interest-tiles">{myTiles}</div></div>
-
-    </form>
+    </div>
   );
 };
 

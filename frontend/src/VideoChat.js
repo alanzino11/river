@@ -3,7 +3,7 @@ import { useAuth0 } from "./react-auth0-spa";
 import Lobby from './Lobby';
 import Room from './Room';
 import firebase from './firebase';
-
+import { Router, Redirect, Route, Switch } from "react-router-dom";
 
 const VideoChat = () => {
   console.log("Video Chat");
@@ -12,17 +12,23 @@ const VideoChat = () => {
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
   //set our variables, and their respective setState functions
-  const handleUsernameChange = useCallback(event => {
-    setUsername(event.target.value);
-  }, []);
+  const handleUsernameChange = (value) => {
+    setUsername(value);
+  }
 
-  const handleRoomNameChange = useCallback(event => {
-    setRoomName(event.target.value);
-  }, []);
+  const handleRoomNameChange = (value) => {
+    setRoomName(value);
+  }
   //functions to set the state of vars
-  const handleSubmit = useCallback(
+  const handleSubmit = (room,name) => {
+    handleUsernameChange(name);
+    handleRoomNameChange(room);
+    getTwilio();
+  }
+  
+  const getTwilio = useCallback(
     async event => {
-      event.preventDefault(); //handle user not entering data
+      //event.preventDefault(); //handle user not entering data
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
@@ -40,21 +46,9 @@ const VideoChat = () => {
 
   const handleLogout = useCallback(event => {
     setToken(null);
+    return(<Redirect to="/" />)
   }, []);
 
-  //firebase code read
-  // const itemsRef = firebase.database().ref('roomIDs');
-  // itemsRef.on('value', (snapshot) => {
-  //   let items = snapshot.val();
-  //   console.log(items)
-  //   for (let item in items) {
-  //     newState.push({
-  //     roomid: item,
-  //     users: items[item].users,
-  //     });
-  //   }
-  //   console.log(newState);
-  // });
 
   let render;
   if (token) {
