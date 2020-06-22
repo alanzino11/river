@@ -6,6 +6,7 @@ import firebase from './firebase';
 
 
 const VideoChat = () => {
+  console.log("Video Chat");
   const { user } = useAuth0();
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
