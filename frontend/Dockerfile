@@ -5,6 +5,7 @@ COPY . .
 
 RUN npm install -g react-scripts
 RUN npm install firebase
-RUN npm i
+
+EXPOSE 3000
 
 CMD ["npm","run","dev"]
