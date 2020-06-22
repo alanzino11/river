@@ -35,10 +35,8 @@ const verifyUserRegistered = (obj) => {
   firebase.database().ref("users/"+obj.nickname)
   .on('value', (snapshot) => {
     let userObj = snapshot.val();
-    console.log('IN INTEREST FORM, user is', userObj)
     if (userObj.set) {
       setInterestFormFilledOut(true);
-      console.log("Interest Form", interestFormFilledOut)
     }
   });
 }
@@ -50,8 +48,6 @@ const verifyUserRegistered = (obj) => {
       </div>
     )
   }
-
-  console.log(isAuthenticated)
 
   return (
     <Router history={history}>
