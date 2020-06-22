@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
-
+import firebase from './firebase';
 const VideoChat = () => {
 
   const [username, setUsername] = useState('');
@@ -31,6 +31,14 @@ const VideoChat = () => {
         }
       }).then(res => res.json());
       setToken(data.token);
+
+
+      firebase.database()
+        .ref("events")
+        .push({
+            user: username,
+          roomID: roomName
+      });
     },
     [roomName, username]
   ); //makes call to fetch api with token, structure data, second parameter of callback requires username and roomName to be set
